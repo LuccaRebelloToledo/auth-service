@@ -6,7 +6,7 @@ const generateHash = async (password) => {
     return await hash(password, salt);
 }
 
-const compareHash = async (hash, password) => {
+const compareHash = async (password, hash) => {
     return await compare(password, hash);
 }
 

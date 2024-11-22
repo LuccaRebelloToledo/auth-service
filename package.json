@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.js",
+    "dev": "npm run migrate:dev && nodemon src/index.js",
+    "migrate:dev": "npx sequelize-cli db:migrate",
     "test": "jest"
   },
   "keywords": [],

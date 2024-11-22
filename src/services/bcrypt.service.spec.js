@@ -9,7 +9,7 @@ describe('BCrypt Service', () => {
     })
     
     test('should be compare the correct password', async() => {
-        const result = await compareHash(generatedHash, password)
+        const result = await compareHash(password, generatedHash)
     
         expect(result).toBeTruthy()
     })
@@ -17,7 +17,7 @@ describe('BCrypt Service', () => {
     test('should be compare the incorrect password', async() => {
         const incorrectPassword = "123"
     
-        const result = await compareHash(generatedHash, incorrectPassword)
+        const result = await compareHash(incorrectPassword, generatedHash)
     
         expect(result).toBeFalsy()
     })
@@ -25,7 +25,7 @@ describe('BCrypt Service', () => {
     test('should be compare the incorrect hash', async() => {
         const incorrectHash = "14312341n312vhjh12vb3h12v3hk12v31yh2vb31"
         
-        const result = await compareHash(incorrectHash, password)
+        const result = await compareHash(password, incorrectHash)
     
         expect(result).toBeFalsy()
     })
