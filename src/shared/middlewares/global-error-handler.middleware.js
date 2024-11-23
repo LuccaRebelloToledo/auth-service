@@ -1,10 +1,10 @@
-const { ZodError } = require('zod');
-
 const { getReasonPhrase } = require('http-status-codes');
 
 const AppError = require('../errors/app-error')
+const { ZodError } = require('zod');
+const { JsonWebTokenError } = require('jsonwebtoken');
 
-const { BAD_REQUEST, INTERNAL_SERVER_ERROR } = require('../http/http-status-code')
+const { BAD_REQUEST, INTERNAL_SERVER_ERROR } = require('../http/http-status-code');
 
 const globalErrorHandler = (err, req, res, next) => {
   console.error(err);
@@ -22,6 +22,12 @@ const globalErrorHandler = (err, req, res, next) => {
     const message = err.message;
 
     return res.status(statusCode).json({ statusCode, error: getReasonPhrase(statusCode), message });
+  }
+
+  if(err instanceof JsonWebTokenError) {
+    const statusCode = BAD_REQUEST;
+
+    return res.status(statusCode).json({ statusCode, error: getReasonPhrase(statusCode), message: err.message });
   }
 
   return res.status(INTERNAL_SERVER_ERROR).json({ statusCode: INTERNAL_SERVER_ERROR, error: getReasonPhrase(INTERNAL_SERVER_ERROR), message: 'Something is wrong.' });
